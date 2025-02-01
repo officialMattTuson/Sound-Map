@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="grid">
+    @for (row of grid; track row; let i = $index) {
+    <div class="row">
+      @for (cell of row; track cell; let j = $index) {
+      <div
+        class="cell"
+        [class.active]="cell.active"
+        (click)="toggleCell(i, j)"
+      ></div>
+      }
+    </div>
+    }
+  </div>
+  <div class="button-group">
+    <button class="btn play-button" (click)="resetGrid()">Play</button>
+    <button class="btn stop-button" (click)="resetGrid()">Stop</button>
+    <button class="btn reset-button" (click)="resetGrid()">Reset</button>
+  </div>
+</div>

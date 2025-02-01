@@ -1,0 +1,67 @@
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #4e2138;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.row {
+  display: flex;
+  gap: 2px;
+}
+
+.cell {
+  width: 50px;
+  height: 30px;
+  background-color: #573a46;
+  border: 1px solid #7985a7;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cell:hover {
+  background: #eee;
+}
+
+.cell.active {
+  background: #4caf50;
+}
+
+.btn {
+  padding-block: 0.5rem;
+  width: 6rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.reset-button {
+  background-color: #FF10F0;
+  color: #fff;
+}
+
+.stop-button {
+  background-color: #FF073A;
+  color: #fff;
+}
+
+.play-button {
+  background-color: #0A9B00  ;
+  color: #fff;
+}
