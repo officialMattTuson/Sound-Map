@@ -31,7 +31,7 @@ export class TempoLeverComponent {
     let pos = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
 
     let percent = (pos - rect.top) / rect.height;
-    percent = Math.max(0, Math.min(1, percent)); // Clamp between 0 and 1
+    percent = Math.max(0, Math.min(1, percent));
     this.bpm = Math.round(this.minBPM + (1 - percent) * (this.maxBPM - this.minBPM));
 
     this.tempoChange.emit(this.bpm);

@@ -3,6 +3,7 @@
     <span>N</span>EON.<span>S</span>OUND
   </div>
   <div class="controls">
+    <app-tempo-lever (tempoChange)="setTempo($event)"></app-tempo-lever>
     <div class="instruments">
       @for (category of instrumentCategories; track category) {
         <div class="instrument-category">
@@ -21,7 +22,11 @@
         </div>
       }
     </div>
-    <app-tempo-lever (tempoChange)="setTempo($event)"></app-tempo-lever>
+  </div>
+  <div class="button-group">
+    <button class="btn play-button" (click)="startPlayback()">Play</button>
+    <button class="btn stop-button" (click)="stopPlayback()">Stop</button>
+    <button class="btn reset-button" (click)="resetGrid()">Reset</button>
   </div>
   <div class="grid">
     <div class="playback-line" [style.left]="getPlaybackLinePosition()"></div>
@@ -37,10 +42,5 @@
       }
     </div>
     }
-  </div>
-  <div class="button-group">
-    <button class="btn play-button" (click)="startPlayback()">Play</button>
-    <button class="btn stop-button" (click)="stopPlayback()">Stop</button>
-    <button class="btn reset-button" (click)="resetGrid()">Reset</button>
   </div>
 </div>

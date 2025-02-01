@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AudioService, InstrumentType } from '../../services/audio.service';
 import { instrumentColors } from '../../core/instrument-colors';
 import { TempoLeverComponent } from '../tempo-lever/tempo-lever.component';
+import { instrumentCategories, Instrument } from '../../core/instrument.model';
 
 interface Cell {
   active: boolean;
@@ -21,33 +22,10 @@ export class SoundGridComponent implements OnInit {
     261.63, 293.66, 329.63, 392.0, 440.0, 523.25, 587.33, 659.25,
   ];
   beatsPerMinute: number = 240;
-  instrumentCategories = [
-    {
-      name: 'Basic',
-      instruments: [
-        'sine',
-        'square',
-        'sawtooth',
-        'triangle',
-      ] as InstrumentType[],
-    },
-    {
-      name: 'Orchestral',
-      instruments: ['brass', 'flute', 'organ', 'strings'] as InstrumentType[],
-    },
-    {
-      name: 'Melodic',
-      instruments: ['bass', 'pluck', 'bell', 'marimba'] as InstrumentType[],
-    },
-    {
-      name: 'Synthetic',
-      instruments: ['synth1', 'synth2', 'synth3'] as InstrumentType[],
-    },
-  ];
-
-  currentInstrument: InstrumentType = 'sine';
-  isPlaying: boolean = false;
-  currentColumn: number = 0;
+  instrumentCategories = instrumentCategories;
+  currentInstrument = Instrument.Sine;
+  isPlaying = false;
+  currentColumn = 0;
   playbackInterval: any;
 
   instrumentColors = instrumentColors;
@@ -70,7 +48,7 @@ export class SoundGridComponent implements OnInit {
           .map(() => ({ active: false, instrument: 'sine' }))
       );
 
-    this.generateFrequencies(numCols);
+    this.generateFrequencies(numRows);
   }
 
   generateFrequencies(numCols: number): void {
@@ -84,7 +62,7 @@ export class SoundGridComponent implements OnInit {
     }
   }
 
-  selectInstrument(type: InstrumentType): void {
+  selectInstrument(type: Instrument): void {
     this.currentInstrument = type;
   }
 
