@@ -1,0 +1,17 @@
+<div
+  class="tempo-slider"
+  (mousedown)="startDragging($event)"
+  (mousemove)="updateLever($event)"
+  (mouseup)="stopDragging()"
+  (mouseleave)="stopDragging()"
+  (touchstart)="startDragging($event)"
+  (touchmove)="updateLever($event)"
+  (touchend)="stopDragging()"
+>
+  <div
+    #lever
+    class="lever"
+    [style.top]="(1 - (bpm - minBPM) / (maxBPM - minBPM)) * 100 + '%'"
+  ></div>
+</div>
+<p class="bpm-display">BPM: {{ bpm }}</p>

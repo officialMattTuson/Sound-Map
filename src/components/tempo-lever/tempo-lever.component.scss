@@ -1,0 +1,33 @@
+.tempo-slider {
+  position: relative;
+  width: 20px;
+  height: 200px;
+  background: linear-gradient(
+    to bottom,
+    #ff073a,
+    #ffd700
+  ); // Red to gold gradient
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+  cursor: pointer;
+}
+
+.lever {
+  position: absolute;
+  width: 30px;
+  height: 15px;
+  background: #fcee09; // Neon Yellow Lever
+  border-radius: 5px;
+  left: -5px;
+  box-shadow: 0 0 10px rgba(252, 238, 9, 1);
+  transition: top 0.1s linear;
+}
+
+.bpm-display {
+  font-family: "Orbitron", sans-serif;
+  font-size: 20px;
+  color: #ffd700;
+  text-shadow: 0 0 5px #ffd700, 0 0 10px #ffd700;
+  text-align: center;
+  margin-top: 10px;
+}

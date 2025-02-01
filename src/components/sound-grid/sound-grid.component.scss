@@ -88,11 +88,12 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 4px; /* Thickness of the line */
-  background-color: rgba(255, 255, 0, 0.8); /* Neon Yellow */
+  width: 4px;
+  background-color: rgba(255, 255, 0, 0.8);
   box-shadow: 0 0 10px rgba(255, 255, 0, 1);
-  transition: left 0.25s linear; /* Moves smoothly with playback */
+  transition: left var(--step-interval, 250ms) linear;
 }
+
 
 .row {
   display: flex;
@@ -103,17 +104,12 @@
   width: 3rem;
   height: 1.8rem;
   background-color: #573a46;
-  // border: 1px solid #7985a7;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .cell:hover {
   background: #e29fd4;
-}
-
-.cell.active {
-  background: #4caf50;
 }
 
 .btn {
@@ -125,6 +121,11 @@
   transition: all 0.2s ease;
   font-weight: 600;
   font-size: 0.75rem;
+
+  &.active {
+    box-shadow: 0 0 10px #ffd700; 
+    transform: scale(1.05); 
+  }
 }
 
 .button-group {
