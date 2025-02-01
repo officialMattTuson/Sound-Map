@@ -14,9 +14,9 @@
   text-transform: uppercase;
   letter-spacing: 3px;
   text-shadow: 0 0 5px #ffd700, 0 0 10px #ffd700, 0 0 20px #ffd700;
-  
+
   span {
-    color: #FCEE09;
+    color: #fcee09;
     font-size: 72px;
   }
   span:nth-child(1) {
@@ -31,20 +31,67 @@
   39%,
   43%,
   100% {
-    color: #FCEE09;
-    text-shadow: 0 0 5px #FCEE09, 0 0 10px #FCEE09, 0 0 20px #FCEE09;
+    color: #fcee09;
+    text-shadow: 0 0 5px #fcee09, 0 0 10px #fcee09, 0 0 20px #fcee09;
   }
   21%,
   41% {
-    color: #000; 
+    color: #000;
     text-shadow: none;
   }
 }
 
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.instruments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  max-width: 800px;
+}
+
+.instrument-category {
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  min-width: 200px;
+}
+
+.instrument-category h3 {
+  margin: 0 0 10px 0;
+  text-align: center;
+  color: #333;
+}
+
+.instrument-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
 .grid {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 2px;
+  width: fit-content;
+}
+
+.playback-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px; /* Thickness of the line */
+  background-color: rgba(255, 255, 0, 0.8); /* Neon Yellow */
+  box-shadow: 0 0 10px rgba(255, 255, 0, 1);
+  transition: left 0.25s linear; /* Moves smoothly with playback */
 }
 
 .row {
@@ -56,13 +103,13 @@
   width: 3rem;
   height: 1.8rem;
   background-color: #573a46;
-  border: 1px solid #7985a7;
+  // border: 1px solid #7985a7;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .cell:hover {
-  background: #eee;
+  background: #e29fd4;
 }
 
 .cell.active {

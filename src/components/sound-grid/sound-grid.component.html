@@ -2,22 +2,44 @@
   <div class="neon-text">
     <span>N</span>EON.<span>S</span>OUND
   </div>
+  <div class="controls">
+    <div class="instruments">
+      @for (category of instrumentCategories; track category) {
+        <div class="instrument-category">
+          <h3>{{ category.name }}</h3>
+          <div class="instrument-buttons">
+            @for (instrument of category.instruments; track instrument) {
+              <button 
+                [class.active]="currentInstrument === instrument"
+                [style.backgroundColor]="instrumentColors[instrument]"
+                (click)="selectInstrument(instrument)">
+                {{ instrument }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+    
+  </div>
   <div class="grid">
+    <div class="playback-line" [style.left]="getPlaybackLinePosition()"></div>
     @for (row of grid; track row; let i = $index) {
     <div class="row">
       @for (cell of row; track cell; let j = $index) {
       <div
-        class="cell"
-        [class.active]="cell.active"
-        (click)="toggleCell(i, j)"
-      ></div>
+      class="cell" 
+      [class.active]="cell.active"
+      [class.playing]="currentColumn === j && isPlaying"
+      [style.backgroundColor]="getCellColor(cell)"
+      (click)="toggleCell(i, j)"></div>
       }
     </div>
     }
   </div>
   <div class="button-group">
-    <button class="btn play-button" (click)="resetGrid()">Play</button>
-    <button class="btn stop-button" (click)="resetGrid()">Stop</button>
+    <button class="btn play-button" (click)="startPlayback()">Play</button>
+    <button class="btn stop-button" (click)="stopPlayback()">Stop</button>
     <button class="btn reset-button" (click)="resetGrid()">Reset</button>
   </div>
 </div>
