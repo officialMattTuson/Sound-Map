@@ -22,23 +22,23 @@
         </div>
       }
     </div>
-    <!-- <div class="controls__grid">
-      <input 
-        type="text" 
-        [(ngModel)]="gridName" 
-        placeholder="Grid name"
-        class="grid-name-input"
-      >
-      <button (click)="saveGrid()">Save Grid</button>
-      <select [(ngModel)]="selectedGridId" class="grid-select">
-        <option value="">Select a grid</option>
-        @for (grid of savedGrids; track grid) {
-          <option [value]="grid.id">{{ grid.name }}</option>
-        }
-      </select>
-      <button (click)="loadGrid()">Load Grid</button>
-      <button (click)="deleteGrid()">Delete Grid</button>
-    </div> -->
+  </div>
+  <div class="controls__grid">
+    <input 
+      type="text" 
+      [(ngModel)]="gridName" 
+      placeholder="Grid name"
+      class="grid-name-input"
+    >
+    <button (click)="saveGrid()">Save Grid</button>
+    <select [(ngModel)]="selectedGridId" class="grid-select">
+      <option value="">Select a grid</option>
+      @for (grid of savedGrids; track grid) {
+        <option [value]="grid.id">{{ grid.name }}</option>
+      }
+    </select>
+    <button (click)="loadGrid()">Load Grid</button>
+    <button (click)="deleteGrid()">Delete Grid</button>
   </div>
   <div class="button-group">
     <app-tempo-lever (tempoChange)="setTempo($event)"></app-tempo-lever>
@@ -58,7 +58,7 @@
               class="cell"
               [class.active]="cell.active"
               [class.playing]="currentColumn === j && isPlaying"
-              [style.backgroundColor]="getCellColor(cell)"
+              [style.backgroundColor]="cell.active ? instrumentColors[cell.instrument] : '#573a46'"
               (click)="toggleCell(i, j)">
             </div>
           }

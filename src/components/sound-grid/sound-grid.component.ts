@@ -7,7 +7,6 @@ import { instrumentCategories, Instrument } from '../../core/instrument.model';
 import { SoundGridService } from '../../services/sound-grid.service';
 import { pianoFrequencies } from '../../core/piano-frequencies';
 import { MaterialModule } from '../../core/modules/material.module';
-import { CommonModule } from '@angular/common';
 
 export interface Cell {
   active: boolean;
@@ -86,10 +85,6 @@ export class SoundGridComponent implements OnInit {
       cell.instrument = this.currentInstrument;
       this.audioService.playTone(this.frequencies[row], cell.instrument);
     }
-  }
-
-  getCellColor(cell: Cell): string {
-    return cell.active ? this.instrumentColors[cell.instrument] : '#573a46';
   }
 
   getPlaybackLinePosition(): string {
