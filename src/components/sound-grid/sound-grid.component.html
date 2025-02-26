@@ -1,14 +1,14 @@
 <div class="container">
   <div class="neon-text">
-    <span>N</span>EON.<span>S</span>OUND
+    <span>N</span>EON.<span>D</span>J
   </div>
-  <div class="controls">
-    <app-tempo-lever (tempoChange)="setTempo($event)"></app-tempo-lever>
-    <div class="instruments">
+  <app-tempo-lever (tempoChange)="setTempo($event)"></app-tempo-lever>
+  <div class="controls__container">
+    <div class="controls__instruments">
       @for (category of instrumentCategories; track category) {
-        <div class="instrument-category">
+        <div class="controls__instrument-category">
           <h3>{{ category.name }}</h3>
-          <div class="instrument-buttons">
+          <div class="controls__instrument-buttons">
             @for (instrument of category.instruments; track instrument) {
               <button 
                 class="btn"
@@ -22,7 +22,7 @@
         </div>
       }
     </div>
-    <div class="grid-controls">
+    <!-- <div class="controls__grid">
       <input 
         type="text" 
         [(ngModel)]="gridName" 
@@ -37,15 +37,15 @@
         }
       </select>
       <button (click)="loadGrid()">Load Grid</button>
-      <button (click)="deleteGrid()" class="delete-btn">Delete Grid</button>
-    </div>
+      <button (click)="deleteGrid()">Delete Grid</button>
+    </div> -->
   </div>
   <div class="button-group">
     <button class="btn play-button" (click)="startPlayback()">Play</button>
     <button class="btn stop-button" (click)="stopPlayback()">Stop</button>
     <button class="btn reset-button" (click)="resetGrid()">Reset</button>
+    <button class="btn" (click)="addColumns()">Add</button>
   </div>
-  <button class="btn add-columns-btn" (click)="addColumns()">Add More Columns</button>
   <div class="grid-container">
     
     <div class="grid">
