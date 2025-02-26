@@ -8,5 +8,5 @@ import { SoundGridComponent } from "../components/sound-grid/sound-grid.componen
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'neon.sound';
+  title = 'neon.DJ';
 }

@@ -13,6 +13,7 @@
                 mat-raised-button
                 color="primary"
                 [style.backgroundColor]="instrument === currentInstrument ? instrumentColors[instrument] : null"
+                [style.color]="instrument === currentInstrument ? '#000' : null"
                 (click)="selectInstrument(instrument)">
                 {{ instrument }}
               </button>

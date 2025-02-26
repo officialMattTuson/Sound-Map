@@ -7,8 +7,9 @@ import { instrumentCategories, Instrument } from '../../core/instrument.model';
 import { SoundGridService } from '../../services/sound-grid.service';
 import { pianoFrequencies } from '../../core/piano-frequencies';
 import { MaterialModule } from '../../core/modules/material.module';
+import { CommonModule } from '@angular/common';
 
-interface Cell {
+export interface Cell {
   active: boolean;
   instrument: InstrumentType;
 }

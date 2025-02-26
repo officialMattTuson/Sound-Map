@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-interface Grid {
+export interface Grid {
   id?: string;
   name: string;
   grid: any[][];
