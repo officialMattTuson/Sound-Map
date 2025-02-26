@@ -1,17 +1,23 @@
-import { Component, ElementRef, ViewChild, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 
 @Component({
   selector: 'app-tempo-lever',
   templateUrl: './tempo-lever.component.html',
-  styleUrl: './tempo-lever.component.scss',
+  styleUrls: ['./tempo-lever.component.scss'],
 })
 export class TempoLeverComponent {
   @ViewChild('lever', { static: true }) lever!: ElementRef;
   @Output() tempoChange = new EventEmitter<number>();
 
-  minBPM = 60;  
-  maxBPM = 560; 
-  bpm = 120;    
+  minBPM = 60;
+  maxBPM = 560;
+  bpm = 120;
   isDragging = false;
 
   startDragging(event: MouseEvent | TouchEvent) {
@@ -28,11 +34,13 @@ export class TempoLeverComponent {
 
     const slider = this.lever.nativeElement.parentElement!;
     const rect = slider.getBoundingClientRect();
-    let pos = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY;
+    let pos =
+      event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
 
-    let percent = (pos - rect.top) / rect.height;
+    let percent = (pos - rect.left) / rect.width;
     percent = Math.max(0, Math.min(1, percent));
-    this.bpm = Math.round(this.minBPM + (1 - percent) * (this.maxBPM - this.minBPM));
+
+    this.bpm = Math.round(this.minBPM + percent * (this.maxBPM - this.minBPM));
 
     this.tempoChange.emit(this.bpm);
   }

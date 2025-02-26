@@ -11,7 +11,7 @@
   <div
     #lever
     class="lever"
-    [style.top]="(1 - (bpm - minBPM) / (maxBPM - minBPM)) * 100 + '%'"
+    [style.left]="((bpm - minBPM) / (maxBPM - minBPM)) * 100 + '%'"
   ></div>
 </div>
 <p class="bpm-display">BPM: {{ bpm }}</p>

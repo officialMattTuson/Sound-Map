@@ -1,12 +1,8 @@
 .tempo-slider {
   position: relative;
-  width: 20px;
-  height: 200px;
-  background: linear-gradient(
-    to bottom,
-    #ff073a,
-    #ffd700
-  ); // Red to gold gradient
+  width: 200px; /* Increase width for horizontal movement */
+  height: 20px; /* Reduce height */
+  background: linear-gradient(to right, #ff073a, #ffd700); /* Left-to-right gradient */
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
   cursor: pointer;
@@ -14,13 +10,13 @@
 
 .lever {
   position: absolute;
-  width: 30px;
-  height: 15px;
-  background: #fcee09; // Neon Yellow Lever
+  width: 15px;
+  height: 30px; /* Make it vertical since the movement is horizontal */
+  background: #fcee09; /* Neon Yellow Lever */
   border-radius: 5px;
-  left: -5px;
+  top: -5px; /* Adjust to center vertically */
   box-shadow: 0 0 10px rgba(252, 238, 9, 1);
-  transition: top 0.1s linear;
+  transition: left 0.1s linear; /* Animate left instead of top */
 }
 
 .bpm-display {

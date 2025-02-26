@@ -2,7 +2,6 @@
   <div class="neon-text">
     <span>N</span>EON.<span>D</span>J
   </div>
-  <app-tempo-lever (tempoChange)="setTempo($event)"></app-tempo-lever>
   <div class="controls__container">
     <div class="controls__instruments">
       @for (category of instrumentCategories; track category) {
@@ -11,9 +10,9 @@
           <div class="controls__instrument-buttons">
             @for (instrument of category.instruments; track instrument) {
               <button 
-                class="btn"
-                [class.active]="currentInstrument === instrument"
-                [style.backgroundColor]="instrumentColors[instrument]"
+                mat-raised-button
+                color="primary"
+                [style.backgroundColor]="instrument === currentInstrument ? instrumentColors[instrument] : null"
                 (click)="selectInstrument(instrument)">
                 {{ instrument }}
               </button>
@@ -41,6 +40,7 @@
     </div> -->
   </div>
   <div class="button-group">
+    <app-tempo-lever (tempoChange)="setTempo($event)"></app-tempo-lever>
     <button class="btn play-button" (click)="startPlayback()">Play</button>
     <button class="btn stop-button" (click)="stopPlayback()">Stop</button>
     <button class="btn reset-button" (click)="resetGrid()">Reset</button>

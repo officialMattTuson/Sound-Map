@@ -6,6 +6,7 @@ import { TempoLeverComponent } from '../tempo-lever/tempo-lever.component';
 import { instrumentCategories, Instrument } from '../../core/instrument.model';
 import { SoundGridService } from '../../services/sound-grid.service';
 import { pianoFrequencies } from '../../core/piano-frequencies';
+import { MaterialModule } from '../../core/modules/material.module';
 
 interface Cell {
   active: boolean;
@@ -14,7 +15,7 @@ interface Cell {
 
 @Component({
   selector: 'app-sound-grid',
-  imports: [TempoLeverComponent, FormsModule],
+  imports: [TempoLeverComponent, FormsModule, MaterialModule],
   templateUrl: './sound-grid.component.html',
   styleUrl: './sound-grid.component.scss',
 })
