@@ -10,7 +10,7 @@ export class TempoLeverComponent {
   @Output() tempoChange = new EventEmitter<number>();
 
   minBPM = 60;  
-  maxBPM = 360; 
+  maxBPM = 560; 
   bpm = 120;    
   isDragging = false;
 

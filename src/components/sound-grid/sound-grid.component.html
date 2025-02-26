@@ -22,25 +22,49 @@
         </div>
       }
     </div>
+    <div class="grid-controls">
+      <input 
+        type="text" 
+        [(ngModel)]="gridName" 
+        placeholder="Grid name"
+        class="grid-name-input"
+      >
+      <button (click)="saveGrid()">Save Grid</button>
+      <select [(ngModel)]="selectedGridId" class="grid-select">
+        <option value="">Select a grid</option>
+        @for (grid of savedGrids; track grid) {
+          <option [value]="grid.id">{{ grid.name }}</option>
+        }
+      </select>
+      <button (click)="loadGrid()">Load Grid</button>
+      <button (click)="deleteGrid()" class="delete-btn">Delete Grid</button>
+    </div>
   </div>
   <div class="button-group">
     <button class="btn play-button" (click)="startPlayback()">Play</button>
     <button class="btn stop-button" (click)="stopPlayback()">Stop</button>
     <button class="btn reset-button" (click)="resetGrid()">Reset</button>
   </div>
-  <div class="grid">
-    <div class="playback-line" [style.left]="getPlaybackLinePosition()"></div>
-    @for (row of grid; track row; let i = $index) {
-    <div class="row">
-      @for (cell of row; track cell; let j = $index) {
-      <div
-      class="cell" 
-      [class.active]="cell.active"
-      [class.playing]="currentColumn === j && isPlaying"
-      [style.backgroundColor]="getCellColor(cell)"
-      (click)="toggleCell(i, j)"></div>
+  <button class="btn add-columns-btn" (click)="addColumns()">Add More Columns</button>
+  <div class="grid-container">
+    
+    <div class="grid">
+      <div class="playback-line" [style.left]="getPlaybackLinePosition()"></div>
+      @for (row of grid; track row; let i = $index) {
+        <div class="row">
+          @for (cell of row; track cell; let j = $index) {
+            <div
+              class="cell"
+              [class.active]="cell.active"
+              [class.playing]="currentColumn === j && isPlaying"
+              [style.backgroundColor]="getCellColor(cell)"
+              (click)="toggleCell(i, j)">
+            </div>
+          }
+        </div>
       }
     </div>
-    }
   </div>
+  
+  
 </div>
