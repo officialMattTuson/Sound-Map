@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 import { AudioService } from '../../services/audio.service';
 import { Grid, SoundGridService } from '../../services/sound-grid.service';
-import { instrumentColors } from '../../core/instrument-colors';
-import { pianoFrequencies } from '../../core/piano-frequencies';
+import { instrumentColors } from '../../core/models/instrument-colors';
+import { pianoFrequencies } from '../../core/models/piano-frequencies';
 import { TempoLeverComponent } from '../tempo-lever/tempo-lever.component';
 import { MaterialModule } from '../../core/modules/material.module';
 

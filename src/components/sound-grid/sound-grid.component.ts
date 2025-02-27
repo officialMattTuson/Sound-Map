@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AudioService, InstrumentType } from '../../services/audio.service';
-import { instrumentColors } from '../../core/instrument-colors';
+import { instrumentColors } from '../../core/models/instrument-colors';
 import { TempoLeverComponent } from '../tempo-lever/tempo-lever.component';
-import { instrumentCategories, Instrument } from '../../core/instrument.model';
+import {
+  instrumentCategories,
+  Instrument,
+} from '../../core/models/instrument.model';
 import { SoundGridService } from '../../services/sound-grid.service';
-import { pianoFrequencies } from '../../core/piano-frequencies';
+import { pianoFrequencies } from '../../core/models/piano-frequencies';
 import { MaterialModule } from '../../core/modules/material.module';
+import { AlertService } from '../../shared/services/alert.service';
 
 export interface Cell {
   active: boolean;
@@ -41,6 +45,7 @@ export class SoundGridComponent implements OnInit {
 
   constructor(
     private readonly audioService: AudioService,
+    private readonly alertService: AlertService,
     private readonly soundGridService: SoundGridService
   ) {}
 
@@ -138,13 +143,13 @@ export class SoundGridComponent implements OnInit {
   loadSavedGrids(): void {
     this.soundGridService.loadSavedGrids().subscribe({
       next: (grids) => (this.savedGrids = grids),
-      error: (err) => console.error('Failed to load saved grids:', err),
+      error: (error: string) => this.alertService.error(error),
     });
   }
 
   saveGrid(): void {
     if (!this.gridName) {
-      alert('Please enter a name for your grid');
+      this.alertService.error('Please enter a name for your grid');
       return;
     }
 
@@ -152,39 +157,37 @@ export class SoundGridComponent implements OnInit {
       next: () => {
         this.loadSavedGrids();
         this.gridName = '';
-        alert('Grid saved successfully!');
+        this.alertService.success('Grid saved successfully!');
       },
-      error: (error) => console.log(error),
+      error: (error: string) => this.alertService.error(error),
     });
   }
 
   loadGrid(): void {
     if (!this.selectedGridId) {
-      alert('Please select a grid to load');
+      this.alertService.error('Please select a grid to load');
       return;
     }
 
     this.soundGridService.loadGrid(this.selectedGridId).subscribe({
       next: (data) => (this.grid = data.grid),
-      error: () => alert('Failed to load grid'),
+      error: (error: string) => this.alertService.error(error),
     });
   }
 
   deleteGrid(): void {
     if (!this.selectedGridId) {
-      alert('Please select a grid to delete');
+      this.alertService.error('Please select a grid to delete');
       return;
     }
-
-    if (!confirm('Are you sure you want to delete this grid?')) return;
 
     this.soundGridService.deleteGrid(this.selectedGridId).subscribe({
       next: () => {
         this.loadSavedGrids();
         this.selectedGridId = '';
-        alert('Grid deleted successfully!');
+        this.alertService.success('Grid deleted successfully!');
       },
-      error: () => alert('Failed to delete grid'),
+      error: (error: string) => this.alertService.error(error),
     });
   }
 }

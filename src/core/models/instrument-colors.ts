@@ -1,4 +1,4 @@
-import { InstrumentType } from '../services/audio.service';
+import { InstrumentType } from '../../services/audio.service';
 
 export enum InstrumentColor {
   NeonMagenta = '#FF00FF',
