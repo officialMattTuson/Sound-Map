@@ -1,40 +1,12 @@
 <mat-drawer-container [hasBackdrop]="false">
   <mat-drawer #drawer mode="side">
-    <div class="button-group">
-      <button class="btn play-button" (click)="startPlayback()">
-        <mat-icon> {{ isPlaying ? 'pause' : 'play_arrow' }} </mat-icon>
-      </button>
-      <button class="btn stop-button" (click)="stopPlayback()">
-        <mat-icon>stop</mat-icon>
-      </button>
-      <button class="btn reset-button" (click)="resetGrid()">
-        <mat-icon>restart_alt</mat-icon>
-      </button>
-      <button class="btn" (click)="addColumns()">
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
-    <div class="controls__grid">
-      <input
-        type="text"
-        [(ngModel)]="gridName"
-        placeholder="Grid name"
-        class="grid-name-input"
-      />
-      <button (click)="saveGrid()">Save Grid</button>
-      <select [(ngModel)]="selectedGridId" class="grid-select">
-        <option value="">Select a grid</option>
-        @for (grid of savedGrids; track grid) {
-        <option [value]="grid.id">{{ grid.name }}</option>
-        }
-      </select>
-      <button (click)="loadGrid()">Load Grid</button>
-      <button (click)="deleteGrid()">Delete Grid</button>
-    </div>
+    <app-sound-grid-controls [drawer]="drawer" [isPlaying]="isPlaying"></app-sound-grid-controls>
   </mat-drawer>
   <mat-drawer-content>
     <div class="container">
-      <mat-icon color="primary" id="menu-icon" (click)="drawer.toggle()">{{ drawer.opened ? 'close' : 'menu' }}</mat-icon>
+      @if (!drawer.opened) {
+        <mat-icon id="menu-icon" (click)="drawer.open()">menu</mat-icon>
+      }
       <div class="neon-text"><span>N</span>EON.<span>D</span>J</div>
       <div class="controls__container">
         <div class="controls__instruments">

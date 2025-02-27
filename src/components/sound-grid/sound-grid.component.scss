@@ -83,14 +83,6 @@ body {
     gap: 8px;
     justify-content: center;
   }
-
-  &__grid {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    margin-block-start: 4rem;
-  }
 }
 
 .grid-container {
@@ -177,30 +169,6 @@ body {
   }
 }
 
-.button-group {
-  margin-block-start: 5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.reset-button {
-  background-color: #ff10f0;
-  color: #fff;
-}
-
-.stop-button {
-  background-color: #ff073a;
-  color: #fff;
-}
-
-.play-button {
-  background-color: #0a9b00;
-  color: #fff;
-}
-
 #menu-icon {
   color: mat.get-theme-color(theme.$dark-theme, primary);
   cursor: pointer;
@@ -222,5 +190,24 @@ body {
 
 mat-drawer-container {
   background-color: #121212;
+  height: 100vh; 
+  overflow: hidden; 
 }
+
+mat-drawer {
+  height: 100vh;
+  overflow: auto; 
+  scrollbar-width: thin; 
+}
+
+mat-drawer-content {
+  height: 100vh;
+  overflow: auto; 
+}
+
+mat-drawer:hover {
+  overscroll-behavior: contain;
+  touch-action: none;
+}
+
 

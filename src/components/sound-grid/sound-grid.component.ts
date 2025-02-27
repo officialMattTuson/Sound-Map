@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentChecked, AfterContentInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AudioService, InstrumentType } from '../../services/audio.service';
 import { instrumentColors } from '../../core/models/instrument-colors';
@@ -11,6 +11,8 @@ import { SoundGridService } from '../../services/sound-grid.service';
 import { pianoFrequencies } from '../../core/models/piano-frequencies';
 import { MaterialModule } from '../../core/modules/material.module';
 import { AlertService } from '../../shared/services/alert.service';
+import { SoundGridControlsComponent } from "../sound-grid-controls/sound-grid-controls.component";
+import { MatDrawer } from '@angular/material/sidenav';
 
 export interface Cell {
   active: boolean;
@@ -19,7 +21,7 @@ export interface Cell {
 
 @Component({
   selector: 'app-sound-grid',
-  imports: [TempoLeverComponent, FormsModule, MaterialModule],
+  imports: [TempoLeverComponent, FormsModule, MaterialModule, SoundGridControlsComponent],
   templateUrl: './sound-grid.component.html',
   styleUrl: './sound-grid.component.scss',
 })
@@ -33,9 +35,6 @@ export class SoundGridComponent implements OnInit {
   isPlaying = false;
   currentColumn = 0;
   playbackInterval: any;
-  gridName = '';
-  selectedGridId = '';
-  savedGrids: any[] = [];
 
   numberOfColumns = 48;
   numberOfRows = 24;
@@ -43,17 +42,17 @@ export class SoundGridComponent implements OnInit {
 
   instrumentColors = instrumentColors;
 
+  @ViewChild('drawer') drawer!: MatDrawer;
+
   constructor(
     private readonly audioService: AudioService,
-    private readonly alertService: AlertService,
-    private readonly soundGridService: SoundGridService
   ) {}
 
   ngOnInit(): void {
     this.initializeGrid();
     window.addEventListener('resize', () => this.initializeGrid());
   }
-
+  
   initializeGrid(): void {
     this.grid = Array.from({ length: this.numberOfRows }, () =>
       Array.from({ length: this.numberOfColumns }, () => ({
@@ -147,56 +146,5 @@ export class SoundGridComponent implements OnInit {
     this.beatsPerMinute = newBPM;
     this.stopPlayback();
     this.startPlayback();
-  }
-
-  loadSavedGrids(): void {
-    this.soundGridService.loadSavedGrids().subscribe({
-      next: (grids) => (this.savedGrids = grids),
-      error: (error: string) => this.alertService.error(error),
-    });
-  }
-
-  saveGrid(): void {
-    if (!this.gridName) {
-      this.alertService.error('Please enter a name for your grid');
-      return;
-    }
-
-    this.soundGridService.saveGrid(this.gridName, this.grid).subscribe({
-      next: () => {
-        this.loadSavedGrids();
-        this.gridName = '';
-        this.alertService.success('Grid saved successfully!');
-      },
-      error: (error: string) => this.alertService.error(error),
-    });
-  }
-
-  loadGrid(): void {
-    if (!this.selectedGridId) {
-      this.alertService.error('Please select a grid to load');
-      return;
-    }
-
-    this.soundGridService.loadGrid(this.selectedGridId).subscribe({
-      next: (data) => (this.grid = data.grid),
-      error: (error: string) => this.alertService.error(error),
-    });
-  }
-
-  deleteGrid(): void {
-    if (!this.selectedGridId) {
-      this.alertService.error('Please select a grid to delete');
-      return;
-    }
-
-    this.soundGridService.deleteGrid(this.selectedGridId).subscribe({
-      next: () => {
-        this.loadSavedGrids();
-        this.selectedGridId = '';
-        this.alertService.success('Grid deleted successfully!');
-      },
-      error: (error: string) => this.alertService.error(error),
-    });
   }
 }

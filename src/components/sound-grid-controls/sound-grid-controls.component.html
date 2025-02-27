@@ -1,0 +1,42 @@
+<div class="controls__container">
+  @if (drawer.opened) {
+    <mat-icon id="close-icon" (click)="closeDrawer()">close</mat-icon>
+  }
+  <div class="controls__grid-playback">
+    <button class="btn play-button" (click)="onStartPlayback()">
+      <mat-icon> {{ isPlaying ? "pause" : "play_arrow" }} </mat-icon>
+    </button>
+    <button class="btn stop-button" (click)="onStopPlayback()">
+      <mat-icon>stop</mat-icon>
+    </button>
+    <button class="btn reset-button" (click)="onClearGrid()">
+      <mat-icon>restart_alt</mat-icon>
+    </button>
+    <button class="btn" (click)="onAddColumns()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <div class="controls__grid-persistence">
+    <mat-form-field appearance="fill">
+      <mat-label>Grid name</mat-label>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="gridName"
+        class="grid-name-input"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Select a grid</mat-label>
+      <mat-select [(ngModel)]="selectedGridId">
+        <mat-option [value]="null">None</mat-option>
+        @for (grid of savedGrids; track grid) {
+        <mat-option [value]="grid.id">{{ grid.name }} </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button id="save-btn" (click)="saveGrid()">Save Grid</button>
+    <button mat-raised-button id="load-btn" (click)="loadGrid()">Load Grid</button>
+    <button mat-raised-button id="delete-btn"(click)="deleteGrid()">Delete Grid</button>
+  </div>
+</div>

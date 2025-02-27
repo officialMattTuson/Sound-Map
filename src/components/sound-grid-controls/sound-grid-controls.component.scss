@@ -1,0 +1,82 @@
+@use "@angular/material" as mat;
+@use "../../themes.scss" as theme;
+
+.controls {
+  &__container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    height: 80vh;
+  }
+
+  &__grid-playback {
+    margin-block-start: 5rem;
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    gap: 1rem;
+  }
+
+  &__grid-persistence {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+
+.btn {
+  padding-block: 0.5rem;
+  width: 6rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  font-size: 0.75rem;
+
+  &.active {
+    box-shadow: 0 0 10px #ffd700;
+    transform: scale(1.05);
+  }
+}
+
+.reset-button {
+  background-color: #ff10f0;
+  color: #fff;
+}
+
+.stop-button {
+  background-color: #ff073a;
+  color: #fff;
+}
+
+.play-button {
+  background-color: #0a9b00;
+  color: #fff;
+}
+
+.mat-mdc-option.mdc-list-item {
+  background-color: #121212;
+}
+
+#delete-btn {
+  color: mat.get-theme-color(theme.$dark-theme, error);
+}
+
+#load-btn {
+  color: mat.get-theme-color(theme.$dark-theme, secondary);
+}
+
+#close-icon {
+  color: mat.get-theme-color(theme.$dark-theme, primary);
+  cursor: pointer;
+  width: 3rem;
+  height: 3rem;
+  font-size: 3rem;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
