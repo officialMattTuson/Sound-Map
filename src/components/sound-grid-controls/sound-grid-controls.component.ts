@@ -89,7 +89,6 @@ export class SoundGridControlsComponent implements OnChanges {
 
     this.soundGridService.loadGrid(this.selectedGridId).subscribe({
       next: (data) => {
-        // this.grid = data.grid;
         this.selectedGrid.emit(data.grid);
       },
       error: (error: string) => this.alertService.error(error),
