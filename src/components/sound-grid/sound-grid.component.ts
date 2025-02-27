@@ -93,7 +93,8 @@ export class SoundGridComponent implements OnInit {
   }
 
   getPlaybackLinePosition(): string {
-    if (!this.isPlaying || !this.grid[0]) return '0px';
+    if (!this.grid || this.grid[0].length === 0) return '0%';
+
     const gridWidth = this.numberOfColumns * 48;
     const cellWidth = gridWidth / this.numberOfColumns;
 
@@ -107,10 +108,13 @@ export class SoundGridComponent implements OnInit {
   startPlayback(): void {
     const stepInterval = 60_000 / this.beatsPerMinute;
 
-    if (this.isPlaying) return;
+    if (this.isPlaying) {
+      clearInterval(this.playbackInterval);
+      this.isPlaying = false;
+      return;
+    }
 
     this.isPlaying = true;
-    this.currentColumn = 0;
 
     document.documentElement.style.setProperty(
       '--step-interval',
@@ -118,16 +122,21 @@ export class SoundGridComponent implements OnInit {
     );
 
     this.playbackInterval = setInterval(() => {
-      for (let row = 0; row < this.grid.length; row++) {
-        const cell = this.grid[row][this.currentColumn];
-        if (cell.active) {
-          this.audioService.playTone(this.frequencies[row], cell.instrument);
-        }
-      }
-
-      this.currentColumn = (this.currentColumn + 1) % this.grid[0].length;
+      this.updatePlayback();
     }, stepInterval);
   }
+
+  private updatePlayback(): void {
+    for (let row = 0; row < this.grid.length; row++) {
+      const cell = this.grid[row][this.currentColumn];
+      if (cell.active) {
+        this.audioService.playTone(this.frequencies[row], cell.instrument);
+      }
+    }
+
+    this.currentColumn = (this.currentColumn + 1) % this.grid[0].length;
+  }
+
   stopPlayback(): void {
     clearInterval(this.playbackInterval);
     this.currentColumn = 0;
