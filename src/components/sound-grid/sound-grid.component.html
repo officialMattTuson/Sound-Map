@@ -42,10 +42,18 @@
   </div>
   <div class="button-group">
     <app-tempo-lever (tempoChange)="setTempo($event)"></app-tempo-lever>
-    <button class="btn play-button" (click)="startPlayback()">Play</button>
-    <button class="btn stop-button" (click)="stopPlayback()">Stop</button>
-    <button class="btn reset-button" (click)="resetGrid()">Reset</button>
-    <button class="btn" (click)="addColumns()">Add</button>
+    <button class="btn play-button" (click)="startPlayback()">
+      <mat-icon>
+        @if (isPlaying) {
+          pause
+        } @else {
+        play_arrow
+        }
+      </mat-icon>
+    </button>
+    <button class="btn stop-button" (click)="stopPlayback()"><mat-icon>stop</mat-icon></button>
+    <button class="btn reset-button" (click)="resetGrid()"><mat-icon>restart_alt</mat-icon></button>
+    <button class="btn" (click)="addColumns()"><mat-icon>add</mat-icon></button>
   </div>
   <div class="grid-container">
     
