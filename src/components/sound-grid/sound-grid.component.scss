@@ -86,8 +86,10 @@ body {
 
   &__grid {
     display: flex;
+    flex-direction: column;
     gap: 10px;
     align-items: center;
+    margin-block-start: 4rem;
   }
 }
 
@@ -176,13 +178,12 @@ body {
 }
 
 .button-group {
+  margin-block-start: 5rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
-
-  & > :nth-child(2) {
-    margin-inline-start: 5rem; 
-  }
 }
 
 .reset-button {
@@ -199,3 +200,23 @@ body {
   background-color: #0a9b00;
   color: #fff;
 }
+
+#menu-icon {
+  color: mat.get-theme-color(theme.$dark-theme, primary);
+  cursor: pointer;
+  width: 3rem;
+  height: 3rem;
+  font-size: 3rem;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
+.mat-drawer {
+  background-color: mat.get-theme-color(theme.$dark-theme, surface);
+  color: mat.get-theme-color(theme.$dark-theme, on-surface);
+  padding: 1rem;
+  flex-direction: column;
+  height: 100%;
+}
+
