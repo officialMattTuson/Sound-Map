@@ -73,7 +73,7 @@ export class AudioService {
     }
   }
 
-  private playBasicWaveform(
+  playBasicWaveform(
     frequency: number,
     type: OscillatorType,
     time: number,
@@ -95,7 +95,7 @@ export class AudioService {
     oscillator.stop(time + duration);
   }
 
-  private playBrass(frequency: number, time: number, duration: number): void {
+  playBrass(frequency: number, time: number, duration: number): void {
     const oscillator = this.audioContext.createOscillator();
     const gainNode = this.audioContext.createGain();
     const filter = this.audioContext.createBiquadFilter();
@@ -119,7 +119,7 @@ export class AudioService {
     oscillator.stop(time + duration);
   }
 
-  private playFlute(frequency: number, time: number, duration: number): void {
+  playFlute(frequency: number, time: number, duration: number): void {
     const oscillator = this.audioContext.createOscillator();
     const gainNode = this.audioContext.createGain();
     const filter = this.audioContext.createBiquadFilter();
@@ -143,7 +143,7 @@ export class AudioService {
     oscillator.stop(time + duration);
   }
 
-  private playOrgan(frequency: number, time: number, duration: number): void {
+  playOrgan(frequency: number, time: number, duration: number): void {
     const fundamentalOsc = this.audioContext.createOscillator();
     const harmonicOsc = this.audioContext.createOscillator();
     const gainNode = this.audioContext.createGain();
@@ -167,7 +167,7 @@ export class AudioService {
     harmonicOsc.stop(time + duration);
   }
 
-  private playStrings(frequency: number, time: number, duration: number): void {
+  playStrings(frequency: number, time: number, duration: number): void {
     const oscillators: OscillatorNode[] = [];
     const gainNode = this.audioContext.createGain();
 
@@ -190,7 +190,7 @@ export class AudioService {
     });
   }
 
-  private playBass(frequency: number, time: number, duration: number): void {
+  playBass(frequency: number, time: number, duration: number): void {
     const oscillator = this.audioContext.createOscillator();
     const gainNode = this.audioContext.createGain();
     const filter = this.audioContext.createBiquadFilter();
@@ -200,7 +200,7 @@ export class AudioService {
     gainNode.connect(this.audioContext.destination);
 
     oscillator.type = 'triangle';
-    oscillator.frequency.value = frequency / 2; // One octave down
+    oscillator.frequency.value = frequency / 2;
 
     filter.type = 'lowpass';
     filter.frequency.value = frequency * 2;
@@ -212,7 +212,7 @@ export class AudioService {
     oscillator.stop(time + duration);
   }
 
-  private playPluck(frequency: number, time: number, duration: number): void {
+  playPluck(frequency: number, time: number, duration: number): void {
     const oscillator = this.audioContext.createOscillator();
     const gainNode = this.audioContext.createGain();
 
@@ -229,7 +229,7 @@ export class AudioService {
     oscillator.stop(time + duration);
   }
 
-  private playBell(frequency: number, time: number, duration: number): void {
+  playBell(frequency: number, time: number, duration: number): void {
     const oscillator = this.audioContext.createOscillator();
     const gainNode = this.audioContext.createGain();
     const filter = this.audioContext.createBiquadFilter();
@@ -251,7 +251,7 @@ export class AudioService {
     oscillator.stop(time + duration * 2);
   }
 
-  private playMarimba(frequency: number, time: number, duration: number): void {
+  playMarimba(frequency: number, time: number, duration: number): void {
     const oscillator = this.audioContext.createOscillator();
     const gainNode = this.audioContext.createGain();
 
@@ -268,7 +268,7 @@ export class AudioService {
     oscillator.stop(time + duration);
   }
 
-  private playSynth1(frequency: number, time: number, duration: number): void {
+  playSynth1(frequency: number, time: number, duration: number): void {
     const oscillator1 = this.audioContext.createOscillator();
     const oscillator2 = this.audioContext.createOscillator();
     const gainNode = this.audioContext.createGain();
@@ -291,7 +291,7 @@ export class AudioService {
     oscillator2.stop(time + duration);
   }
 
-  private playSynth2(frequency: number, time: number, duration: number): void {
+  playSynth2(frequency: number, time: number, duration: number): void {
     const oscillator = this.audioContext.createOscillator();
     const gainNode = this.audioContext.createGain();
     const filter = this.audioContext.createBiquadFilter();
@@ -315,7 +315,7 @@ export class AudioService {
     oscillator.stop(time + duration);
   }
 
-  private playSynth3(frequency: number, time: number, duration: number): void {
+  playSynth3(frequency: number, time: number, duration: number): void {
     const oscillator1 = this.audioContext.createOscillator();
     const oscillator2 = this.audioContext.createOscillator();
     const gainNode = this.audioContext.createGain();

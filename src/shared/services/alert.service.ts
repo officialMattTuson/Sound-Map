@@ -17,7 +17,6 @@ export class AlertService {
   }
 
   error(message: string): void {
-    console.log(message)
     this.snackbar.open(message, 'Close', {
       duration: 5000,
       panelClass: 'error',

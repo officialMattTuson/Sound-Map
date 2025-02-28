@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SoundGridControlsComponent } from './sound-grid-controls.component';
 import { FormsModule } from '@angular/forms';
 import { of, throwError } from 'rxjs';
@@ -7,6 +6,9 @@ import { AlertService } from '../../shared/services/alert.service';
 import { Grid, SoundGridService } from '../../services/sound-grid.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatButtonHarness } from '@angular/material/button/testing';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 
 describe('SoundGridControlsComponent', () => {
   let component: SoundGridControlsComponent;
@@ -14,6 +16,7 @@ describe('SoundGridControlsComponent', () => {
   let alertService: jasmine.SpyObj<AlertService>;
   let soundGridService: jasmine.SpyObj<SoundGridService>;
   let mockDrawer: jasmine.SpyObj<MatDrawer>;
+  let loader: HarnessLoader;
 
   beforeEach(async () => {
     mockDrawer = jasmine.createSpyObj('MatDrawer', ['open', 'close'], {
@@ -42,6 +45,7 @@ describe('SoundGridControlsComponent', () => {
 
     fixture = TestBed.createComponent(SoundGridControlsComponent);
     component = fixture.componentInstance;
+    loader = TestbedHarnessEnvironment.loader(fixture);
     alertService = TestBed.inject(AlertService) as jasmine.SpyObj<AlertService>;
     soundGridService = TestBed.inject(
       SoundGridService
@@ -52,6 +56,63 @@ describe('SoundGridControlsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('buttons', () => {
+    it('should call onStartPlayback when play button is clicked', () => {
+      spyOn(component, 'onStartPlayback');
+      const button = fixture.nativeElement.querySelector('.play-button');
+      button.click();
+      expect(component.onStartPlayback).toHaveBeenCalled();
+    });
+
+    it('should call onStopPlayback when stop button is clicked', () => {
+      spyOn(component, 'onStopPlayback');
+      const button = fixture.nativeElement.querySelector('.stop-button');
+      button.click();
+      expect(component.onStopPlayback).toHaveBeenCalled();
+    });
+
+    it('should call onClearGrid when reset button is clicked', () => {
+      spyOn(component, 'onClearGrid');
+      const button = fixture.nativeElement.querySelector('.reset-button');
+      button.click();
+      expect(component.onClearGrid).toHaveBeenCalled();
+    });
+
+    it('should call onAddColumns when add button is clicked', () => {
+      spyOn(component, 'onAddColumns');
+      const button = fixture.nativeElement.querySelector('.add-button');
+      button.click();
+      expect(component.onAddColumns).toHaveBeenCalled();
+    });
+
+    it('should call saveGrid when save button is clicked', async () => {
+      spyOn(component, 'saveGrid');
+      const button = await loader.getHarness(
+        MatButtonHarness.with({ selector: '#save-btn' })
+      );
+      await button.click();
+      expect(component.saveGrid).toHaveBeenCalled();
+    });
+
+    it('should call loadGrid when load button is clicked', async () => {
+      spyOn(component, 'loadGrid');
+      const button = await loader.getHarness(
+        MatButtonHarness.with({ selector: '#load-btn' })
+      );
+      await button.click();
+      expect(component.loadGrid).toHaveBeenCalled();
+    });
+
+    it('should call deleteGrid when delete button is clicked', async () => {
+      spyOn(component, 'deleteGrid');
+      const button = await loader.getHarness(
+        MatButtonHarness.with({ selector: '#delete-btn' })
+      );
+      await button.click();
+      expect(component.deleteGrid).toHaveBeenCalled();
+    });
   });
 
   it('should emit playback event on start playback', () => {
