@@ -3,14 +3,17 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
 import { MaterialModule } from '../../core/modules/material.module';
 import { AlertService } from '../../shared/services/alert.service';
-import { SoundGridService } from '../../services/sound-grid.service';
+import { SoundGridApiService } from '../../services/sound-grid-api.service';
 import { FormsModule } from '@angular/forms';
 import { MatDrawer } from '@angular/material/sidenav';
+import { GridService } from '../../services/grid.service';
+import { Grid } from '../../shared/models/grid.model';
 
 @Component({
   selector: 'app-sound-grid-controls',
@@ -18,10 +21,9 @@ import { MatDrawer } from '@angular/material/sidenav';
   templateUrl: './sound-grid-controls.component.html',
   styleUrl: './sound-grid-controls.component.scss',
 })
-export class SoundGridControlsComponent implements OnChanges {
+export class SoundGridControlsComponent implements OnInit, OnChanges {
   @Output() addColumns = new EventEmitter<number>();
   @Output() playback = new EventEmitter<void>();
-  @Output() selectedGrid = new EventEmitter<any>();
   @Output() stop = new EventEmitter<void>();
   @Output() clear = new EventEmitter<void>();
 
@@ -30,13 +32,17 @@ export class SoundGridControlsComponent implements OnChanges {
 
   gridName = '';
   selectedGridId = '';
-  savedGrids: any[] = [];
+  savedGrids: Grid[] = [];
 
   constructor(
     private readonly alertService: AlertService,
-    private readonly soundGridService: SoundGridService
+    private readonly gridService: GridService,
+    private readonly soundGridApiService: SoundGridApiService
   ) {}
 
+  ngOnInit(): void {
+    this.loadSavedGrids();
+  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['isPlaying']) {
       this.isPlaying = changes['isPlaying'].currentValue;
@@ -69,11 +75,11 @@ export class SoundGridControlsComponent implements OnChanges {
       return;
     }
 
-    // method to get grid details
-    const grid = [[]];
-    this.soundGridService.saveGrid(this.gridName, grid).subscribe({
-      next: () => {
+    const grid = this.gridService.getGrid();
+    this.soundGridApiService.saveGrid(this.gridName, grid).subscribe({
+      next: (grid) => {
         this.loadSavedGrids();
+        this.gridService.addToGridList(grid);
         this.gridName = '';
         this.alertService.success('Grid saved successfully!');
       },
@@ -81,15 +87,17 @@ export class SoundGridControlsComponent implements OnChanges {
     });
   }
 
-  loadGrid(): void {
+  loadGrid(grid: any): void {
+    this.selectedGridId = grid._id;
     if (!this.selectedGridId) {
       this.alertService.error('Please select a grid to load');
       return;
     }
 
-    this.soundGridService.loadGrid(this.selectedGridId).subscribe({
+    this.soundGridApiService.loadGrid(this.selectedGridId).subscribe({
       next: (data) => {
-        this.selectedGrid.emit(data.grid);
+        this.gridService.setGrid(data.grid);
+        this.gridService.setSelectedGridId(data._id);
       },
       error: (error: string) => this.alertService.error(error),
     });
@@ -101,9 +109,10 @@ export class SoundGridControlsComponent implements OnChanges {
       return;
     }
 
-    this.soundGridService.deleteGrid(this.selectedGridId).subscribe({
+    this.soundGridApiService.deleteGrid(this.selectedGridId).subscribe({
       next: () => {
         this.loadSavedGrids();
+        this.gridService.removeFromGridList(this.selectedGridId);
         this.selectedGridId = '';
         this.alertService.success('Grid deleted successfully!');
       },
@@ -112,8 +121,13 @@ export class SoundGridControlsComponent implements OnChanges {
   }
 
   loadSavedGrids(): void {
-    this.soundGridService.loadSavedGrids().subscribe({
-      next: (grids) => (this.savedGrids = grids),
+    this.soundGridApiService.loadSavedGrids().subscribe({
+      next: (grids) => {
+        grids.forEach((grid) => {
+          this.gridService.addToGridList(grid);
+        });
+        this.savedGrids = grids;
+      },
       error: (error: string) => this.alertService.error(error),
     });
   }

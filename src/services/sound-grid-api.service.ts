@@ -1,17 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface Grid {
-  id?: string;
-  name: string;
-  grid: any[][];
-}
+import { Cell, Grid } from '../shared/models/grid.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SoundGridService {
+export class SoundGridApiService {
   private readonly apiUrl = 'http://localhost:5000/grids';
 
   constructor(private readonly http: HttpClient) {}
@@ -20,7 +15,7 @@ export class SoundGridService {
     return this.http.get<Grid[]>(this.apiUrl);
   }
 
-  saveGrid(gridName: string, grid: any[][]): Observable<Grid> {
+  saveGrid(gridName: string, grid: Cell[][]): Observable<Grid> {
     return this.http.post<Grid>(this.apiUrl, { name: gridName, grid });
   }
 

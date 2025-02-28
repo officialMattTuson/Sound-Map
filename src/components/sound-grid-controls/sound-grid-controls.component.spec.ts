@@ -3,7 +3,7 @@ import { SoundGridControlsComponent } from './sound-grid-controls.component';
 import { FormsModule } from '@angular/forms';
 import { of, throwError } from 'rxjs';
 import { AlertService } from '../../shared/services/alert.service';
-import { Grid, SoundGridService } from '../../services/sound-grid.service';
+import { Grid, SoundGridApiService } from '../../services/sound-grid-api.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatButtonHarness } from '@angular/material/button/testing';
@@ -14,7 +14,7 @@ describe('SoundGridControlsComponent', () => {
   let component: SoundGridControlsComponent;
   let fixture: ComponentFixture<SoundGridControlsComponent>;
   let alertService: jasmine.SpyObj<AlertService>;
-  let soundGridService: jasmine.SpyObj<SoundGridService>;
+  let SoundGridApiService: jasmine.SpyObj<SoundGridApiService>;
   let mockDrawer: jasmine.SpyObj<MatDrawer>;
   let loader: HarnessLoader;
 
@@ -26,7 +26,7 @@ describe('SoundGridControlsComponent', () => {
       'error',
       'success',
     ]);
-    const soundGridServiceSpy = jasmine.createSpyObj('SoundGridService', [
+    const SoundGridApiServiceSpy = jasmine.createSpyObj('SoundGridApiService', [
       'saveGrid',
       'loadGrid',
       'deleteGrid',
@@ -37,7 +37,7 @@ describe('SoundGridControlsComponent', () => {
       imports: [FormsModule, SoundGridControlsComponent],
       providers: [
         { provide: AlertService, useValue: alertServiceSpy },
-        { provide: SoundGridService, useValue: soundGridServiceSpy },
+        { provide: SoundGridApiService, useValue: SoundGridApiServiceSpy },
         { provide: MatDrawer, useValue: mockDrawer },
         provideAnimationsAsync(),
       ],
@@ -47,9 +47,9 @@ describe('SoundGridControlsComponent', () => {
     component = fixture.componentInstance;
     loader = TestbedHarnessEnvironment.loader(fixture);
     alertService = TestBed.inject(AlertService) as jasmine.SpyObj<AlertService>;
-    soundGridService = TestBed.inject(
-      SoundGridService
-    ) as jasmine.SpyObj<SoundGridService>;
+    SoundGridApiService = TestBed.inject(
+      SoundGridApiService
+    ) as jasmine.SpyObj<SoundGridApiService>;
     component.drawer = mockDrawer;
     fixture.detectChanges();
   });
@@ -171,14 +171,14 @@ describe('SoundGridControlsComponent', () => {
     // Arrange
     component.gridName = 'Test Grid';
     const gridData: Grid = { name: 'Test Grid', grid: [[]] };
-    soundGridService.saveGrid.and.returnValue(of(gridData));
+    SoundGridApiService.saveGrid.and.returnValue(of(gridData));
     spyOn(component, 'loadSavedGrids');
 
     // Act
     component.saveGrid();
 
     // Assert
-    expect(soundGridService.saveGrid).toHaveBeenCalledWith('Test Grid', [[]]);
+    expect(SoundGridApiService.saveGrid).toHaveBeenCalledWith('Test Grid', [[]]);
     expect(component.loadSavedGrids).toHaveBeenCalled();
     expect(component.gridName).toBe('');
     expect(alertService.success).toHaveBeenCalledWith(
@@ -203,14 +203,14 @@ describe('SoundGridControlsComponent', () => {
     // Arrange
     component.selectedGridId = '123';
     const gridData: Grid = { name: 'test', grid: [[]] };
-    soundGridService.loadGrid.and.returnValue(of(gridData));
+    SoundGridApiService.loadGrid.and.returnValue(of(gridData));
     spyOn(component.selectedGrid, 'emit');
 
     // Act
     component.loadGrid();
 
     // Assert
-    expect(soundGridService.loadGrid).toHaveBeenCalledWith('123');
+    expect(SoundGridApiService.loadGrid).toHaveBeenCalledWith('123');
     expect(component.selectedGrid.emit).toHaveBeenCalledWith(gridData.grid);
   });
 
@@ -230,14 +230,14 @@ describe('SoundGridControlsComponent', () => {
   it('should delete grid and show success alert', () => {
     // Arrange
     component.selectedGridId = '123';
-    soundGridService.deleteGrid.and.returnValue(of(void 0));
+    SoundGridApiService.deleteGrid.and.returnValue(of(void 0));
     spyOn(component, 'loadSavedGrids');
 
     // Act
     component.deleteGrid();
 
     // Assert
-    expect(soundGridService.deleteGrid).toHaveBeenCalledWith('123');
+    expect(SoundGridApiService.deleteGrid).toHaveBeenCalledWith('123');
     expect(component.loadSavedGrids).toHaveBeenCalled();
     expect(component.selectedGridId).toBe('');
     expect(alertService.success).toHaveBeenCalledWith(
@@ -261,13 +261,13 @@ describe('SoundGridControlsComponent', () => {
   it('should load saved grids', () => {
     // Arrange
     const gridData: Grid[] = [{ name: 'test', grid: [[]] }];
-    soundGridService.loadSavedGrids.and.returnValue(of(gridData));
+    SoundGridApiService.loadSavedGrids.and.returnValue(of(gridData));
 
     // Act
     component.loadSavedGrids();
 
     // Assert
-    expect(soundGridService.loadSavedGrids).toHaveBeenCalled();
+    expect(SoundGridApiService.loadSavedGrids).toHaveBeenCalled();
     expect(component.savedGrids).toEqual(gridData);
   });
 
@@ -275,7 +275,7 @@ describe('SoundGridControlsComponent', () => {
     // Arrange
     component.gridName = 'Test Grid';
     const error = 'Save failed';
-    soundGridService.saveGrid.and.returnValue(throwError(() => error));
+    SoundGridApiService.saveGrid.and.returnValue(throwError(() => error));
 
     // Act
     component.saveGrid();
@@ -288,7 +288,7 @@ describe('SoundGridControlsComponent', () => {
     // Arrange
     component.selectedGridId = '123';
     const error = 'Load failed';
-    soundGridService.loadGrid.and.returnValue(throwError(() => error));
+    SoundGridApiService.loadGrid.and.returnValue(throwError(() => error));
 
     // Act
     component.loadGrid();
@@ -301,7 +301,7 @@ describe('SoundGridControlsComponent', () => {
     // Arrange
     component.selectedGridId = '123';
     const error = 'Delete failed';
-    soundGridService.deleteGrid.and.returnValue(throwError(() => error));
+    SoundGridApiService.deleteGrid.and.returnValue(throwError(() => error));
 
     // Act
     component.deleteGrid();
@@ -313,7 +313,7 @@ describe('SoundGridControlsComponent', () => {
   it('should handle error on load saved grids', () => {
     // Arrange
     const error = 'Load saved grids failed';
-    soundGridService.loadSavedGrids.and.returnValue(throwError(() => error));
+    SoundGridApiService.loadSavedGrids.and.returnValue(throwError(() => error));
 
     // Act
     component.loadSavedGrids();

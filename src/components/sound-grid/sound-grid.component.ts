@@ -1,27 +1,28 @@
-import { AfterContentChecked, AfterContentInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AudioService, InstrumentType } from '../../services/audio.service';
+import { AudioService } from '../../services/audio.service';
 import { instrumentColors } from '../../core/models/instrument-colors';
 import { TempoLeverComponent } from '../tempo-lever/tempo-lever.component';
 import {
   instrumentCategories,
   Instrument,
 } from '../../core/models/instrument.model';
-import { SoundGridService } from '../../services/sound-grid.service';
 import { pianoFrequencies } from '../../core/models/piano-frequencies';
 import { MaterialModule } from '../../core/modules/material.module';
-import { AlertService } from '../../shared/services/alert.service';
-import { SoundGridControlsComponent } from "../sound-grid-controls/sound-grid-controls.component";
+import { SoundGridControlsComponent } from '../sound-grid-controls/sound-grid-controls.component';
 import { MatDrawer } from '@angular/material/sidenav';
-
-export interface Cell {
-  active: boolean;
-  instrument: InstrumentType;
-}
+import { Cell } from '../../shared/models/grid.model';
+import { GridService } from '../../services/grid.service';
+import { filter, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-sound-grid',
-  imports: [TempoLeverComponent, FormsModule, MaterialModule, SoundGridControlsComponent],
+  imports: [
+    TempoLeverComponent,
+    FormsModule,
+    MaterialModule,
+    SoundGridControlsComponent,
+  ],
   templateUrl: './sound-grid.component.html',
   styleUrl: './sound-grid.component.scss',
 })
@@ -46,13 +47,30 @@ export class SoundGridComponent implements OnInit {
 
   constructor(
     private readonly audioService: AudioService,
+    private readonly gridService: GridService
   ) {}
 
   ngOnInit(): void {
     this.initializeGrid();
     window.addEventListener('resize', () => this.initializeGrid());
+    this.observeGridChanges();
   }
-  
+
+  observeGridChanges(): void {
+    this.gridService.selectedGridId
+      .pipe(
+        switchMap((id) => this.gridService.getGridById(id))
+      )
+      .subscribe((grid) => {
+        console.log(grid)
+        if (!grid) {
+          return;
+        }
+        this.grid = grid.grid;
+        console.log(this.grid)
+      });
+  }
+
   initializeGrid(): void {
     this.grid = Array.from({ length: this.numberOfRows }, () =>
       Array.from({ length: this.numberOfColumns }, () => ({
@@ -89,6 +107,7 @@ export class SoundGridComponent implements OnInit {
       cell.instrument = this.currentInstrument;
       this.audioService.playTone(this.frequencies[row], cell.instrument);
     }
+    this.gridService.setGrid(this.grid);
   }
 
   getPlaybackLinePosition(): string {

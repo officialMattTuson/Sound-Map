@@ -4,11 +4,11 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { SoundGridService, Grid } from './sound-grid.service';
+import { SoundGridApiService, Grid } from './sound-grid-api.service';
 import { provideHttpClient } from '@angular/common/http';
 
-describe('SoundGridService', () => {
-  let service: SoundGridService;
+describe('SoundGridApiService', () => {
+  let service: SoundGridApiService;
   let httpMock: HttpTestingController;
   const apiUrl = 'http://localhost:5000/grids';
 
@@ -16,12 +16,12 @@ describe('SoundGridService', () => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        SoundGridService,
+        SoundGridApiService,
         provideHttpClient(),
         provideHttpClientTesting(),
       ],
     });
-    service = TestBed.inject(SoundGridService);
+    service = TestBed.inject(SoundGridApiService);
     httpMock = TestBed.inject(HttpTestingController);
   });
 

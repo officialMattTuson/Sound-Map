@@ -31,12 +31,11 @@
       <mat-select [(ngModel)]="selectedGridId">
         <mat-option [value]="null">None</mat-option>
         @for (grid of savedGrids; track grid) {
-        <mat-option [value]="grid.id">{{ grid.name }} </mat-option>
+        <mat-option (click)="loadGrid(grid)" [value]="grid._id">{{ grid.name }} </mat-option>
         }
       </mat-select>
     </mat-form-field>
     <button mat-raised-button id="save-btn" (click)="saveGrid()">Save Grid</button>
-    <button mat-raised-button id="load-btn" (click)="loadGrid()">Load Grid</button>
     <button mat-raised-button id="delete-btn"(click)="deleteGrid()">Delete Grid</button>
   </div>
 </div>
