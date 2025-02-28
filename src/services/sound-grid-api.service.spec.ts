@@ -4,8 +4,10 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { SoundGridApiService, Grid } from './sound-grid-api.service';
+import { SoundGridApiService } from './sound-grid-api.service';
 import { provideHttpClient } from '@angular/common/http';
+import { Grid } from '../shared/models/grid.model';
+import { Instrument } from '../core/models/instrument.model';
 
 describe('SoundGridApiService', () => {
   let service: SoundGridApiService;
@@ -36,8 +38,8 @@ describe('SoundGridApiService', () => {
   it('should retrieve saved grids', () => {
     // Arrange
     const mockGrids: Grid[] = [
-      { id: '1', name: 'Grid 1', grid: [[]] },
-      { id: '2', name: 'Grid 2', grid: [[]] }
+      { _id: '1', name: 'Grid 1', grid: [[]] },
+      { _id: '2', name: 'Grid 2', grid: [[]] }
     ];
 
     // Act
@@ -53,23 +55,23 @@ describe('SoundGridApiService', () => {
 
   it('should save a grid', () => {
     // Arrange
-    const mockGrid: Grid = { id: '1', name: 'New Grid', grid: [[1, 2], [3, 4]] };
+    const mockGrid: Grid = { _id: '1', name: 'New Grid', grid: [[{active: true, instrument: Instrument.Bell}], [{active: true, instrument: Instrument.Flute}]] };
 
     // Act
-    service.saveGrid('New Grid', [[1, 2], [3, 4]]).subscribe(grid => {
+    service.saveGrid('New Grid', [[{active: true, instrument: Instrument.Bell}], [{active: true, instrument: Instrument.Flute}]]).subscribe(grid => {
       // Assert
       expect(grid).toEqual(mockGrid);
     });
 
     const req = httpMock.expectOne(apiUrl);
     expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual({ name: 'New Grid', grid: [[1, 2], [3, 4]] });
+    expect(req.request.body).toEqual({ name: 'New Grid', grid: [[{active: true, instrument: Instrument.Bell}], [{active: true, instrument: Instrument.Flute}]] });
   });
 
   it('should load a specific grid', () => {
     // Arrange
     const gridId = '1';
-    const mockGrid: Grid = { id: gridId, name: 'Loaded Grid', grid: [[5, 6], [7, 8]] };
+    const mockGrid: Grid = { _id: gridId, name: 'Loaded Grid', grid: [[{active: false, instrument: Instrument.Sine}], [{active: true, instrument: Instrument.Flute}]] };
 
     // Act
     service.loadGrid(gridId).subscribe(grid => {
