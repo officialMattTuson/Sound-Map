@@ -58,16 +58,12 @@ export class SoundGridComponent implements OnInit {
 
   observeGridChanges(): void {
     this.gridService.selectedGridId
-      .pipe(
-        switchMap((id) => this.gridService.getGridById(id))
-      )
+      .pipe(switchMap((id) => this.gridService.getGridById(id)))
       .subscribe((grid) => {
-        console.log(grid)
         if (!grid) {
           return;
         }
         this.grid = grid.grid;
-        console.log(this.grid)
       });
   }
 
